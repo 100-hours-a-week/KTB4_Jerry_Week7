@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>회원정보수정</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+    />
+    <link rel="stylesheet" href="/dist/styles.css" />
+  </head>
+  <body class="min-h-270 bg-background">
+    <!-- 로그인 헤더 + 프로필 드롭다운 -->
+    <header class="border-b border-foreground">
+      <div class="grid grid-cols-[1fr_auto_1fr] items-center h-26">
+        <div></div>
+        <h1 class="text-logo">아무 말 대잔치</h1>
+        <div class="relative justify-self-start ml-33.25">
+          <button
+            id="profileBtn"
+            class="h-9 w-9 overflow-hidden rounded-full bg-gray-200"
+          >
+            <img
+              src=""
+              alt="프로필"
+              id="headerProfileAvatar"
+              class="cursor-pointer h-full w-full object-cover"
+            />
+          </button>
+          <!-- 드롭다운 -->
+          <ul
+            id="profileMenu"
+            class="absolute right-0 mt-2 hidden w-34 overflow-hidden bg-gray-300 shadow-md"
+          >
+            <li>
+              <a
+                href="/pages/edit-profile.html"
+                class="block px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
+                >회원정보수정</a
+              >
+            </li>
+            <li>
+              <a
+                href="/pages/edit-password.html"
+                class="block px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
+                >비밀번호수정</a
+              >
+            </li>
+            <li>
+              <button
+                type="button"
+                id="logoutBtn"
+                class="block w-full px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
+              >
+                로그아웃
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="flex flex-col items-center pt-40">
+      <h2 class="text-title">회원정보수정</h2>
+
+      <form class="mt-6 flex w-98 flex-col gap-4" novalidate>
+        <!-- 프로필 사진 -->
+        <div class="flex flex-col items-center gap-1">
+          <span class="self-start text-sm font-bold"> 프로필 사진 </span>
+          <p id="profileHelper" class="text-xs text-red-500"></p>
+          <label
+            for="profileImage"
+            class="relative h-40 w-40 cursor-pointer overflow-hidden rounded-full bg-gray-300"
+          >
+            <img
+              id="profilePreview"
+              src=""
+              alt="프로필 미리보기"
+              class="h-full w-full object-cover"
+            />
+            <span class="absolute inset-0 flex items-center justify-center">
+              <span
+                class="rounded-full bg-black/50 px-3 py-1 text-xs text-white"
+                >변경</span
+              >
+            </span>
+            <input
+              id="profileImage"
+              type="file"
+              accept="image/*"
+              class="sr-only"
+            />
+          </label>
+        </div>
+
+        <!-- 이메일 -->
+        <div class="flex flex-col gap-1">
+          <span class="text-sm font-bold">이메일</span>
+          <p id="email" class="text-sm"></p>
+        </div>
+
+        <!-- 닉네임 -->
+        <div class="flex flex-col gap-1">
+          <label for="nickname" class="text-sm font-bold">닉네임</label>
+          <input
+            id="nickname"
+            name="nickname"
+            type="text"
+            class="rounded border px-3 py-2 text-sm"
+          />
+          <p id="nicknameHelper" class="mt-1 text-xs text-red-500"></p>
+        </div>
+
+        <!-- 수정하기 버튼 -->
+        <button
+          disabled
+          type="submit"
+          id="submitBtn"
+          class="cursor-pointer w-full rounded-xl bg-talktalk-primary hover:bg-talktalk-primary-hover py-3 text-center text-sm text-white disabled:opacity-50"
+        >
+          수정하기
+        </button>
+      </form>
+
+      <!-- 회원 탈퇴 -->
+      <button
+        type="button"
+        id="withdrawBtn"
+        class="cursor-pointer mt-2 w-76 py-3 text-center text-sm"
+      >
+        회원 탈퇴
+      </button>
+    </main>
+
+    <!-- 토스트 -->
+    <div
+      id="toast"
+      role="status"
+      aria-live="polite"
+      class="fixed bottom-10 left-1/2 hidden -translate-x-1/2 rounded-full bg-talktalk-primary px-6 py-3 text-sm text-white shadow-lg"
+    >
+      수정 완료
+    </div>
+    <script type="module" src="/src/js/pages/edit-profile.js"></script>
+  </body>
+</html>

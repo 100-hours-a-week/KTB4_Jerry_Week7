@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme {
+  /* ===== 타이포그래피 ===== */
+  --font-sans: "Pretendard", system-ui, sans-serif;
+  --font-display: "Sandoll GogoRound", "Pretendard", sans-serif;
+
+  /* 기본 텍스트 */
+  --color-foreground: #000000;
+
+  /* 로고 텍스트 */
+  --text-logo: 2rem;
+  --text-logo--line-height: 100%;
+  --text-logo--letter-spacing: 0em;
+  --text-logo--font-weight: 400;
+
+  /* 환영 텍스트 */
+  --text-greeting: 1.5rem;
+  --text-greeting--line-height: 130%;
+  --text-greeting--letter-spacing: 0em;
+  --text-greeting--font-weight: 400;
+
+  /* 제목 텍스트 */
+  --text-title: 2rem;
+  --text-title--line-height: 100%;
+  --text-title--letter-spacing: 0em;
+  --text-title--font-weight: 700;
+
+  /* ===== 색상 ===== */
+  --color-talktalk-primary: #aca0eb;
+  --color-talktalk-primary-hover: #7f6aee;
+  --color-background: #f4f5f7;
+  --color-menu-dropdown-hover: #e9e9e9;
+  --color-like-button-on: #aca0eb;
+  --color-like-button-off: #d9d9d9;
+}

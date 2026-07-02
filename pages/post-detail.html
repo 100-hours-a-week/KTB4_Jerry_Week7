@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시글</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
+    />
+    <link rel="stylesheet" href="/dist/styles.css" />
+  </head>
+  <body class="min-h-270 bg-background">
+    <!-- 헤더 -->
+    <header class="border-b border-foreground">
+      <div class="grid grid-cols-[1fr_auto_1fr] items-center h-26">
+        <a href="/" class="justify-self-end mr-33.25 text-2xl">‹</a>
+        <div class="flex h-26 items-center justify-center">
+          <h1 class="text-logo">아무 말 대잔치</h1>
+        </div>
+        <div class="relative justify-self-start ml-33.25">
+          <button
+            id="profileBtn"
+            aria-haspopup="true"
+            aria-expanded="false"
+            class="h-9 w-9 overflow-hidden rounded-full bg-gray-200"
+          >
+            <img
+              id="headerProfileAvatar"
+              src=""
+              alt="프로필"
+              class="cursor-pointer h-full w-full object-cover"
+            />
+          </button>
+          <ul
+            id="profileMenu"
+            class="absolute right-0 mt-2 hidden w-40 overflow-hidden rounded-lg border bg-white shadow-md"
+          >
+            <li>
+              <a
+                href="/pages/edit-profile.html"
+                class="block px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
+                >회원정보수정</a
+              >
+            </li>
+            <li>
+              <a
+                href="/pages/edit-password.html"
+                class="block px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
+                >비밀번호수정</a
+              >
+            </li>
+            <li>
+              <button
+                type="button"
+                id="logoutBtn"
+                class="block w-full px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
+              >
+                로그아웃
+              </button>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+
+    <main class="mx-auto max-w-148.75 px-4 py-6">
+      <article class="flex flex-col items-center">
+        <div class="flex flex-col justify-between w-136">
+          <div>
+            <h2 id="postTitle" class="text-xl font-bold"></h2>
+          </div>
+
+          <div class="flex justify-between">
+            <div class="mt-2 flex items-center gap-2 text-sm">
+              <img
+                id="postWriterAvatar"
+                class="h-6 w-6 rounded-full bg-gray-300"
+              />
+              <span id="postWriterName" class="font-medium"></span>
+              <time id="postCreatedAt" class="text-gray-500"></time>
+            </div>
+
+            <div id="postActions" class="hidden gap-2">
+              <a
+                href=""
+                id="editPostLink"
+                class="rounded-lg border border-gray-300 px-3 py-1 text-sm"
+                >수정</a
+              >
+              <button
+                type="button"
+                id="deletePostBtn"
+                class="rounded-lg border border-gray-300 px-3 py-1 text-sm"
+              >
+                삭제
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4 border-gray-200 w-full" />
+
+        <div id="postImages" class="flex flex-col gap-3 w-136"></div>
+
+        <!-- 본문 -->
+        <div
+          id="postContent"
+          class="py-6 text-sm leading-relaxed text-left w-136"
+        >
+          본문 내용
+        </div>
+
+        <!-- 좋아요, 조회수, 댓글 -->
+        <div class="mt-6 flex justify-center gap-3">
+          <button
+            type="button"
+            id="likeBtn"
+            class="cursor-pointer flex flex-col items-center rounded-lg px-6 py-3 w-26"
+          >
+            <span id="likeCount" class="font-bold"></span>
+            <span class="text-xs">좋아요수</span>
+          </button>
+          <div
+            class="flex flex-col items-center rounded-lg bg-like-button-off px-6 py-3 w-26"
+          >
+            <span id="viewCount" class="font-bold"></span
+            ><span class="text-xs">조회수</span>
+          </div>
+          <div
+            class="flex flex-col items-center rounded-lg bg-like-button-off px-6 py-3 w-26"
+          >
+            <span id="commentCount" class="font-bold"></span
+            ><span class="text-xs">댓글</span>
+          </div>
+        </div>
+      </article>
+
+      <hr class="my-6 border-gray-200" />
+
+      <!-- 댓글 -->
+      <form
+        id="commentForm"
+        class="border rounded-lg border-gray-200 bg-white p-3"
+        novalidate
+      >
+        <textarea
+          id="commentInput"
+          rows="3"
+          placeholder="댓글을 남겨주세요!"
+          class="w-full p-4 text-sm placeholder:text-foreground"
+        ></textarea>
+
+        <hr class="my-2 border-gray-200 w-full" />
+
+        <div class="flex justify-end">
+          <button
+            type="submit"
+            id="commentSubmit"
+            disabled
+            class="rounded-2xl bg-talktalk-primary-hover px-4 py-2 text-sm text-white disabled:bg-talktalk-primary w-30"
+          >
+            댓글 등록
+          </button>
+        </div>
+      </form>
+
+      <!-- 댓글 목록 -->
+      <ul id="commentList" class="mt-6 flex flex-col"></ul>
+      <div class="flex justify-center">
+        <button
+          type="button"
+          id="loadMoreCommentsBtn"
+          class="cursor-pointer mx-auto hidden rounded-lg border border-gray-300 px-4 py-2 text-sm"
+        >
+          댓글 더보기
+        </button>
+      </div>
+    </main>
+    <script type="module" src="/src/js/pages/post-detail.js"></script>
+  </body>
+</html>

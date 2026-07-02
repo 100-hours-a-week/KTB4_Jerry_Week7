@@ -1,0 +1,59 @@
+import { login } from "../api/auth.js";
+import { ERROR } from "../constants/messages.js";
+import { validateEmail, validatePassword } from "../utils/validation.js";
+
+const form = document.querySelector("form");
+const emailInput = document.getElementById("email");
+const passwordInput = document.getElementById("password");
+const helper = document.getElementById("helperText");
+const loginBtn = document.getElementById("loginBtn");
+
+const touched = { email: false, password: false };
+
+function refresh() {
+  const emailErr = validateEmail(emailInput.value);
+  const passwordErr = validatePassword(passwordInput.value);
+
+  loginBtn.disabled = !(emailErr === "" && passwordErr === "");
+
+  helper.textContent =
+    (touched.email ? emailErr : "") || (touched.password ? passwordErr : "");
+}
+
+emailInput.addEventListener("input", () => {
+  touched.email = true;
+  refresh();
+});
+
+passwordInput.addEventListener("input", () => {
+  touched.password = true;
+  refresh();
+});
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (loginBtn.disabled) return;
+
+  // 중복 제출 방지
+  loginBtn.disabled = true;
+
+  try {
+    const { ok, body } = await login(
+      emailInput.value.trim(),
+      passwordInput.value,
+    );
+
+    if (ok) {
+      // 보안상 위험하지만 일단 가장 간단한 방식인 로컬스토리지에 액세스 토큰 저장
+      localStorage.setItem("accessToken", body.data.access_token);
+      window.location.href = "/";
+      return;
+    }
+
+    helper.textContent = ERROR.api[body?.message] ?? ERROR.api.default;
+  } catch {
+    helper.textContent = ERROR.api.default;
+  } finally {
+    loginBtn.disabled = false;
+  }
+});
