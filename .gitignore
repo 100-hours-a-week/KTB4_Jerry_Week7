@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output (Tailwind CLI)
+dist/
+
+# macOS
+.DS_Store
+
+# Logs
+*.log
+pnpm-debug.log*
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+
+# Cache
+.cache/
