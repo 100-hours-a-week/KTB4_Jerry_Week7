@@ -11,20 +11,17 @@
     <link rel="stylesheet" href="/dist/styles.css" />
   </head>
   <body class="min-h-270 bg-background">
-    <!-- 헤더 -->
     <header class="border-b border-foreground">
       <div class="flex h-26 items-center justify-center">
         <h1 class="text-logo">아무 말 대잔치</h1>
       </div>
     </header>
 
-    <!-- 로그인 폼 -->
     <main class="flex flex-col items-center justify-center py-66">
       <h2 class="text-title">로그인</h2>
 
       <form class="mt-6 w-90" novalidate>
         <div class="flex flex-col gap-4">
-          <!-- 이메일 -->
           <div class="flex flex-col gap-1">
             <label for="email" class="text-sm font-bold">이메일</label>
             <input
@@ -37,7 +34,6 @@
             />
           </div>
 
-          <!-- 비밀번호 -->
           <div class="flex flex-col gap-1">
             <label for="password" class="text-sm font-bold">비밀번호</label>
             <input
@@ -51,10 +47,8 @@
           </div>
         </div>
 
-        <!-- helper text -->
         <p id="helperText" class="mt-1 text-sm text-red-500"></p>
 
-        <!-- 로그인 -->
         <button
           type="submit"
           id="loginBtn"

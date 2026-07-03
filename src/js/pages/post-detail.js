@@ -132,9 +132,7 @@ likeBtn.addEventListener("click", async () => {
   if (likePending) return;
   likePending = true;
 
-  // Optimistic UI
   const nextLiked = !liked;
-
   liked = nextLiked;
   likeCountValue += nextLiked ? 1 : -1;
   renderLike();
@@ -181,7 +179,6 @@ loadMoreCommentsBtn.addEventListener("click", async () => {
   const { items, next_cursor } = res.body.data.comments;
   const html = items.map(commentItem).join("");
 
-  // 실제 프레임워크 사용하면 낙관적 UI 적용하는 동안 백그라운드에서 받아와서 이 과정 필요 없을 수도 있다고 생각.
   const addedOptimistic = commentList.querySelector('[data-optimistic="true"]');
   if (addedOptimistic) {
     addedOptimistic.insertAdjacentHTML("beforebegin", html);
@@ -245,7 +242,6 @@ commentForm.addEventListener("submit", async (e) => {
   }
 
   if (editingCommentId == null) {
-    // Optimistic UI
     const newComment = {
       id: res.body.data.id,
       content,

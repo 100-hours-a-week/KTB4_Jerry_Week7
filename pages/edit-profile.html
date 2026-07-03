@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/dist/styles.css" />
   </head>
   <body class="min-h-270 bg-background">
-    <!-- 로그인 헤더 + 프로필 드롭다운 -->
     <header class="border-b border-foreground">
       <div class="grid grid-cols-[1fr_auto_1fr] items-center h-26">
         <div></div>
@@ -28,7 +27,6 @@
               class="cursor-pointer h-full w-full object-cover"
             />
           </button>
-          <!-- 드롭다운 -->
           <ul
             id="profileMenu"
             class="absolute right-0 mt-2 hidden w-34 overflow-hidden bg-gray-300 shadow-md"
@@ -65,7 +63,6 @@
       <h2 class="text-title">회원정보수정</h2>
 
       <form class="mt-6 flex w-98 flex-col gap-4" novalidate>
-        <!-- 프로필 사진 -->
         <div class="flex flex-col items-center gap-1">
           <span class="self-start text-sm font-bold"> 프로필 사진 </span>
           <p id="profileHelper" class="text-xs text-red-500"></p>
@@ -94,13 +91,11 @@
           </label>
         </div>
 
-        <!-- 이메일 -->
         <div class="flex flex-col gap-1">
           <span class="text-sm font-bold">이메일</span>
           <p id="email" class="text-sm"></p>
         </div>
 
-        <!-- 닉네임 -->
         <div class="flex flex-col gap-1">
           <label for="nickname" class="text-sm font-bold">닉네임</label>
           <input
@@ -112,7 +107,6 @@
           <p id="nicknameHelper" class="mt-1 text-xs text-red-500"></p>
         </div>
 
-        <!-- 수정하기 버튼 -->
         <button
           disabled
           type="submit"
@@ -123,7 +117,6 @@
         </button>
       </form>
 
-      <!-- 회원 탈퇴 -->
       <button
         type="button"
         id="withdrawBtn"
@@ -133,7 +126,6 @@
       </button>
     </main>
 
-    <!-- 토스트 -->
     <div
       id="toast"
       role="status"

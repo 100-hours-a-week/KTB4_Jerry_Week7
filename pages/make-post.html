@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/dist/styles.css" />
   </head>
   <body class="min-h-270 bg-background">
-    <!-- 헤더 -->
     <header class="border-b border-foreground">
       <div class="grid grid-cols-[1fr_auto_1fr] items-center h-26">
         <a href="/pages/login.html" class="justify-self-end mr-33.25 text-2xl"
@@ -66,13 +65,11 @@
       </div>
     </header>
 
-    <!-- 게시글 작성 폼 -->
     <main class="flex flex-col items-center justify-center py-6">
       <h2 class="text-title">게시글 작성</h2>
 
       <form class="mt-13 w-148 px-4" novalidate>
         <div class="flex flex-col gap-6">
-          <!-- 제목 -->
           <div class="flex flex-col gap-3">
             <label for="title" class="text-base font-bold px-4">제목</label>
             <input
@@ -85,7 +82,6 @@
             />
           </div>
 
-          <!-- 내용 -->
           <div class="flex flex-col gap-3">
             <label for="content" class="text-base font-bold px-4">내용</label>
             <textarea
@@ -98,10 +94,8 @@
           </div>
         </div>
 
-        <!-- helper text -->
         <p id="formHelper" class="mt-1 text-sm text-red-500 px-4"></p>
 
-        <!-- 이미지 -->
         <div class="flex flex-col gap-1 px-4 mt-3">
           <span class="text-base font-bold">이미지</span>
           <div class="flex items-center gap-2">
@@ -124,7 +118,6 @@
           </div>
         </div>
 
-        <!-- 완료 -->
         <button
           type="submit"
           id="submitBtn"

@@ -43,19 +43,11 @@ let profileImageId = null;
 
 const SIGNUP_ERROR = {
   bad_request: { field: "nickname", text: ERROR.api.bad_request },
-
-  /* ===== figma 요구사항에는 없어서 helper text로 사용할지는 보류 ===== */
-  // image_not_found: { field: "profile", text: ERROR.api.image_not_found },
-  // too_large_file: { field: "profile", text: ERROR.api.too_large_file },
-  // unsupported_media_type: {
-  //   field: "profile",
-  //   text: ERROR.api.unsupported_media_type,
-  // },
 };
 
 function showError(msg) {
   const { field, text } = SIGNUP_ERROR[msg] ?? {
-    field: "nickname", // 등록되지 않은 에러는 가장 하단 helper text에 띄우도록 처리(방어용)
+    field: "nickname",
     text: ERROR.api.default,
   };
   helpers[field].textContent = text;

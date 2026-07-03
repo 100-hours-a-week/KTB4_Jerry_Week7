@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="/dist/styles.css" />
   </head>
   <body class="min-h-270 bg-background">
-    <!-- 헤더 -->
     <header class="border-b border-foreground">
       <div class="grid grid-cols-[1fr_auto_1fr] items-center h-26">
         <a
@@ -35,7 +34,6 @@
               class="h-full w-full object-cover"
             />
           </button>
-          <!-- 드롭다운 -->
           <ul
             id="profileMenu"
             class="absolute right-0 mt-2 hidden w-40 overflow-hidden rounded-lg border bg-white shadow-md"
@@ -68,13 +66,11 @@
       </div>
     </header>
 
-    <!-- 게시글 수정 폼 -->
     <main class="flex flex-col items-center justify-center py-6">
       <h2 class="text-title">게시글 수정</h2>
 
       <form class="mt-13 w-148 px-4" novalidate>
         <div class="flex flex-col gap-6">
-          <!-- 제목 -->
           <div class="flex flex-col gap-3">
             <label for="title" class="text-base font-bold px-4">제목</label>
             <input
@@ -88,7 +84,6 @@
             />
           </div>
 
-          <!-- 내용 -->
           <div class="flex flex-col gap-3">
             <label for="content" class="text-base font-bold px-4">내용</label>
             <textarea
@@ -101,10 +96,8 @@
           </div>
         </div>
 
-        <!-- helper text -->
         <p id="formHelper" class="mt-1 text-sm text-red-500 px-4"></p>
 
-        <!-- 이미지 -->
         <div class="flex flex-col gap-1 px-4 mt-3">
           <span class="text-base font-bold">이미지</span>
           <div class="flex items-center gap-2">
@@ -128,7 +121,6 @@
           <div id="imagePreview" class="mt-2 flex flex-wrap gap-2 px-4"></div>
         </div>
 
-        <!-- 완료 -->
         <button
           type="submit"
           id="submitBtn"
