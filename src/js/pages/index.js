@@ -1,11 +1,11 @@
 import { goLogin } from "../utils/sessions.js";
-import {
-  bindHeaderProfileEvents,
-  loadHeaderProfileAvatar,
-} from "../components/header.js";
 import { getPosts } from "../api/post.js";
 import { postCard } from "../components/postCard.js";
 import { HTTP_STATUS } from "../constants/httpStatus.js";
+import { mountHeader } from "../components/header.js";
+import { reloadOnBFCacheRestore } from "../utils/bfcache.js";
+import { showToast } from "../utils/toast.js";
+import { ERROR } from "../constants/messages.js";
 
 const postList = document.getElementById("postList");
 const sentinel = document.getElementById("scrollSentinel");
@@ -18,8 +18,7 @@ if (!localStorage.getItem("accessToken")) {
   goLogin();
 }
 
-loadHeaderProfileAvatar();
-bindHeaderProfileEvents();
+mountHeader();
 
 async function loadPosts() {
   if (isLoading || !hasMore) return;
@@ -31,6 +30,7 @@ async function loadPosts() {
 
   if (!ok) {
     if (status === HTTP_STATUS.UNAUTHORIZED) return goLogin();
+    showToast(ERROR.post.cannot_load_posts, "error");
     isLoading = false;
     return;
   }
@@ -53,3 +53,5 @@ const observer = new IntersectionObserver((entries) => {
   }
 });
 observer.observe(sentinel);
+
+reloadOnBFCacheRestore();

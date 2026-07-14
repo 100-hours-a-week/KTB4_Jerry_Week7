@@ -12,29 +12,20 @@ function postCard(item) {
     <li>
       <a
         href="/pages/post-detail.html?id=${item.id}"
-        class="block rounded-xl border border-gray-200 bg-white py-5 shadow-sm transition hover:shadow-md"
+        class="block rounded-card border border-line bg-surface p-5 shadow-sm transition hover:shadow-md"
       >
-        <div class="px-5">
-          <h2 class="text-lg font-bold">${title}</h2>
-          <div class="mt-1 flex items-center justify-between text-sm">
-            <div class="flex gap-x-3">
-              <span>좋아요 <span>${formatCount(item.like_count)}</span></span>
-              <span>댓글 <span>${formatCount(item.comment_count)}</span></span>
-              <span>조회수 <span>${formatCount(item.view_count)}</span></span>
-            </div>
-            <time datetime="${item.created_at}">${item.created_at}</time>
+        <h2 class="text-card ${item.is_blinded ? "text-ink-subtle" : "text-ink"}">${title}</h2>
+        <div class="mt-4 flex items-center justify-between text-caption">
+          <div class="flex items-center gap-3 text-ink-subtle">
+            <span>♡ ${formatCount(item.like_count)}</span>
+            <span>댓글 ${formatCount(item.comment_count)}</span>
+            <span>조회수 ${formatCount(item.view_count)}</span>
           </div>
-        </div>
-      
-        <hr class="my-3 border-gray-200" />
-
-        <div class="flex items-center gap-2 px-5">
-          <img
-            src="${avatar}"
-            alt=""
-            class="h-6 w-6 rounded-full object-cover bg-gray-200"
-          />
-          <span class="text-sm font-medium">${item.writer.nickname}</span>
+          <div class="flex items-center gap-2">
+            <img src="${avatar}" class="h-5 w-5 rounded-full bg-avatar object-cover"/>
+            <span class="font-medium text-ink-muted">${item.writer.nickname}</span>
+            <time datetime="${item.created_at}" class="text-placeholder">${item.created_at}</time>
+          </div>
         </div>
       </a>
     </li>

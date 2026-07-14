@@ -1,31 +1,67 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css");
+
 @import "tailwindcss";
 
 @theme {
-  /* ===== 타이포그래피 ===== */
-  --font-sans: "Pretendard", system-ui, sans-serif;
-  --font-display: "Sandoll GogoRound", "Pretendard", sans-serif;
+  --font-sans: "Pretendard Variable", "Pretendard", system-ui, sans-serif;
 
-  --color-foreground: #000000;
+  --color-cream: #fbf6ef;
+  --color-surface: #fffdf9;
+  --color-sunken: #f6efe6;
+  --color-field: #fbf6ef;
+  --color-field-readonly: #f4efe7;
+  --color-ink: #3a342e;
+  --color-ink-muted: #6b6258;
+  --color-ink-subtle: #9a8f80;
+  --color-placeholder: #b3a895;
+  --color-line: #eaddce;
+  --color-line-strong: #d8c7b4;
+  --color-coral: #f2a57c;
+  --color-coral-strong: #be5e36;
+  --color-sage: #7fb09a;
+  --color-danger: #c0492e;
+  --color-avatar: #e8d8c6;
 
-  --text-logo: 2rem;
-  --text-logo--line-height: 100%;
-  --text-logo--letter-spacing: 0em;
-  --text-logo--font-weight: 400;
+  --text-logo: 1.375rem;
+  --text-logo--line-height: 1;
+  --text-logo--font-weight: 700;
 
-  --text-greeting: 1.5rem;
-  --text-greeting--line-height: 130%;
-  --text-greeting--letter-spacing: 0em;
-  --text-greeting--font-weight: 400;
-
-  --text-title: 2rem;
-  --text-title--line-height: 100%;
-  --text-title--letter-spacing: 0em;
+  --text-title: 1.875rem;
+  --text-title--line-height: 1.2;
   --text-title--font-weight: 700;
 
-  --color-talktalk-primary: #aca0eb;
-  --color-talktalk-primary-hover: #7f6aee;
-  --color-background: #f4f5f7;
-  --color-menu-dropdown-hover: #e9e9e9;
-  --color-like-button-on: #aca0eb;
-  --color-like-button-off: #d9d9d9;
+  --text-heading: 1.25rem;
+  --text-heading--line-height: 1.3;
+  --text-heading--font-weight: 700;
+
+  --text-card: 1.125rem;
+  --text-card--line-height: 1.35;
+  --text-card--font-weight: 700;
+
+  --text-body: 0.875rem;
+  --text-body--line-height: 1.6;
+  --text-body--font-weight: 400;
+
+  --text-label: 0.8125rem;
+  --text-label--line-height: 1.4;
+  --text-label--font-weight: 500;
+
+  --text-caption: 0.75rem;
+  --text-caption--line-height: 1.5;
+  --text-caption--font-weight: 400;
+
+  --text-button: 0.9375rem;
+  --text-button--line-height: 1;
+  --text-button--font-weight: 700;
+
+  --radius-card: 1rem;
+  --radius-field: 0.625rem;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-cream);
+    color: var(--color-ink);
+  }
 }

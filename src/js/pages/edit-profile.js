@@ -9,15 +9,15 @@ import { uploadImage } from "../api/image.js";
 import { HTTP_STATUS } from "../constants/httpStatus.js";
 import { ERROR } from "../constants/messages.js";
 import { validateNickname } from "../utils/validation.js";
-import { bindHeaderProfileEvents } from "../components/header.js";
+import { mountHeader } from "../components/header.js";
 import { confirmModal } from "../components/confirmModal.js";
 import { resolveImageUrl } from "../utils/image.js";
+import { showToast } from "../utils/toast.js";
 
 const form = document.querySelector("form");
 const emailText = document.getElementById("email");
 const nicknameInput = document.getElementById("nickname");
 const nicknameHelper = document.getElementById("nicknameHelper");
-const headerProfileAvatar = document.getElementById("headerProfileAvatar");
 const profileImage = document.getElementById("profileImage");
 const profilePreview = document.getElementById("profilePreview");
 const profileHelper = document.getElementById("profileHelper");
@@ -25,20 +25,12 @@ const profileHelper = document.getElementById("profileHelper");
 const submitBtn = document.getElementById("submitBtn");
 const withdrawBtn = document.getElementById("withdrawBtn");
 
-const toast = document.getElementById("toast");
-
-let toastTimer = null;
 let previewUrl = null;
 let profileImageId = null;
 let originalNickname = "";
 let nicknameAvailable = null;
 
-function showToast(message) {
-  toast.textContent = message;
-  toast.classList.remove("hidden");
-  if (toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.add("hidden"), 2000);
-}
+mountHeader();
 
 async function loadMyInfo() {
   const { ok, status, body } = await getMyInfo().catch(() => ({ ok: false }));
@@ -54,7 +46,6 @@ async function loadMyInfo() {
   nicknameInput.value = me.nickname;
 
   const imageUrl = resolveImageUrl(me.profile_image_url);
-  headerProfileAvatar.src = imageUrl;
   profilePreview.src = imageUrl;
 
   originalNickname = me.nickname;
@@ -152,8 +143,6 @@ form.addEventListener("submit", async (e) => {
     submitBtn.disabled = false;
   }
 });
-
-bindHeaderProfileEvents();
 
 withdrawBtn.addEventListener("click", async () => {
   const ok = await confirmModal({

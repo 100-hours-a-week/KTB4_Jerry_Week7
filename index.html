@@ -3,82 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>아무 말 대잔치</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css"
-    />
+    <title>톡톡</title>
     <link rel="stylesheet" href="./dist/styles.css" />
   </head>
-  <body class="min-h-270 bg-background">
-    <header class="border-b border-foreground">
-      <div
-        class="grid grid-cols-[1fr_auto_1fr] items-center justify-center h-26"
-      >
-        <div></div>
-        <h1 class="text-logo text-center">아무 말 대잔치</h1>
-        <div class="relative justify-self-start ml-33.25">
-          <button
-            id="profileBtn"
-            aria-haspopup="true"
-            aria-expanded="false"
-            class="h-9 w-9 overflow-hidden rounded-full bg-gray-200"
-          >
-            <img
-              id="headerProfileAvatar"
-              src=""
-              alt="프로필"
-              class="cursor-pointer h-full w-full object-cover"
-            />
-          </button>
-          <ul
-            id="profileMenu"
-            class="absolute right-0 mt-2 hidden w-40 overflow-hidden rounded-lg border bg-white shadow-md"
-          >
-            <li>
-              <a
-                href="/pages/edit-profile.html"
-                class="block px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
-                >회원정보수정</a
-              >
-            </li>
-            <li>
-              <a
-                href="/pages/edit-password.html"
-                class="block px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
-                >비밀번호수정</a
-              >
-            </li>
-            <li>
-              <button
-                type="button"
-                id="logoutBtn"
-                class="block w-full px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
-              >
-                로그아웃
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </header>
+  <body>
+    <div id="app-header"></div>
 
-    <main class="mx-auto max-w-148.75 py-10">
-      <p class="text-greeting text-center">
-        안녕하세요,<br />
-        아무 말 대잔치 <strong class="font-bold">게시판</strong> 입니다.
+    <main class="mx-auto w-full max-w-170 pb-8">
+      <p
+        class="py-8 text-center text-[1.375rem] font-medium leading-snug text-ink"
+      >
+        게시판을 두드려봐요,
+        <span class="font-bold text-coral-strong">톡톡</span>
       </p>
 
-      <div class="flex justify-end">
+      <div
+        class="flex h-11 items-center gap-2 rounded-field border border-line bg-surface px-4"
+      >
+        <span
+          class="h-4.5 w-4.5 shrink-0 bg-ink-subtle"
+          style="
+            mask: url(&quot;assets/icons/icon_search.svg&quot;) no-repeat
+              center / contain;
+          "
+        ></span>
+        <input
+          id="searchInput"
+          type="search"
+          placeholder="검색어를 입력하세요"
+          class="w-full bg-transparent text-body text-ink placeholder:text-placeholder focus:outline-none"
+        />
+      </div>
+
+      <div class="mt-6 flex items-center justify-between">
+        <h2 class="text-heading text-ink">전체 글</h2>
         <a
           href="/pages/make-post.html"
-          class="flex w-36.75 h-12 rounded-3xl bg-talktalk-primary hover:bg-talktalk-primary-hover text-white justify-center items-center"
+          class="rounded-xl bg-coral px-5 py-2.5 text-label font-bold text-white transition hover:brightness-95"
         >
-          게시글 작성
+          글쓰기
         </a>
       </div>
 
-      <ul id="postList" class="mt-5 flex flex-col gap-4"></ul>
+      <ul id="postList" class="mt-4 flex flex-col gap-4"></ul>
       <div id="scrollSentinel" class="h-10"></div>
     </main>
     <script type="module" src="/src/js/pages/index.js"></script>

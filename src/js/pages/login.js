@@ -33,8 +33,6 @@ passwordInput.addEventListener("input", () => {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (loginBtn.disabled) return;
-
-  // 중복 제출 방지
   loginBtn.disabled = true;
 
   try {
@@ -44,7 +42,6 @@ form.addEventListener("submit", async (e) => {
     );
 
     if (ok) {
-      // 보안상 위험하지만 일단 가장 간단한 방식인 로컬스토리지에 액세스 토큰 저장
       localStorage.setItem("accessToken", body.data.access_token);
       window.location.href = "/";
       return;

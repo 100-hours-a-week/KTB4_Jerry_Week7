@@ -3,65 +3,75 @@ import { getMyInfo } from "../api/user.js";
 import { logout } from "../api/auth.js";
 import { goLogin } from "../utils/sessions.js";
 
-function renderHeader() {
+function renderHeader({ back = true, profile = true } = {}) {
   const backCell = back
-    ? `<a href="${back}" class="justify-self-end mr-33.25 text-2xl">‹</a>`
+    ? `<button type="button" id="backBtn" class="cursor-pointer justify-self-start flex w-10 h-10 items-center justify-center rounded-lg text-3xl leading-none text-ink hover:bg-sunken">‹</button>`
     : `<div></div>`;
 
   const profileCell = profile
     ? `
-    <div class="relative justify-self-start ml-33.25">
+    <div class="relative justify-self-end">
       <button 
         id="profileBtn"
-        class="h-9 w-9 overflow-hidden rounded-full bg-gray-200"
+        class="h-9 w-9 overflow-hidden rounded-full bg-avatar"
       >
         <img
           id="headerProfileAvatar"
           src=""
           alt="프로필"
-          class="h-full w-full object-cover"
+          class="cursor-pointer h-full w-full object-cover"
         />
-        </button>
-        <ul
-          id="profileMenu"
-          class="absolute right-0 mt-2 hidden w-40 overflow-hidden rounded-lg border bg-white shadow-md"
-        >
-          <li>
-            <a
-              href="/pages/edit-profile.html"
-              class="block px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
-              >회원정보수정</a
-            >
-          </li>
-          <li>
-            <a
-              href="/pages/edit-password.html"
-              class="block px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
-              >비밀번호수정</a
-            >
-          </li>
-          <li>
-            <button
-              type="button"
-              id="logoutBtn"
-              class="block w-full px-4 py-3 text-center text-sm hover:bg-menu-dropdown-hover"
-            >
-              로그아웃
-            </button>
-          </li>
-        </ul>
-      </div>`
+      </button>
+      <ul
+        id="profileMenu"
+        class="absolute right-0 mt-2 hidden w-40 overflow-hidden rounded-card border border-line bg-surface shadow-md"
+      >
+        <li>
+          <a
+            href="/pages/edit-profile.html"
+            class="block px-4 py-3 text-center text-label text-ink hover:bg-sunken"
+            >회원정보수정</a
+          >
+        </li>
+        <li>
+          <a
+            href="/pages/edit-password.html"
+            class="block px-4 py-3 text-center text-label text-ink hover:bg-sunken"
+            >비밀번호수정</a
+          >
+        </li>
+        <li>
+          <button
+            type="button"
+            id="logoutBtn"
+            class="cursor-pointer block w-full px-4 py-3 text-center text-label text-danger hover:bg-sunken"
+          >
+          로그아웃
+          </button>
+        </li>
+      </ul>
+    </div>`
     : `<div></div>`;
 
   return `
-    <header class="border-b border-foreground">
-      <div class="grid grid-cols-[1fr_auto_1fr] items-center h-26">
+    <header class="border-b border-line bg-surface">
+      <div class="mx-auto grid h-17 max-w-170 grid-cols-[1fr_auto_1fr] items-center">
         ${backCell}
-        <h1 class="text-logo text-center">아무 말 대잔치</h1>
+        <h1 class="text-logo text-center text-ink">
+          <a href="/index.html">톡톡</a>
+        </h1>
         ${profileCell}
       </div>
     </header>
   `;
+}
+
+function mountHeader(options = {}) {
+  const slot = document.getElementById("app-header");
+  if (!slot) return;
+  slot.innerHTML = renderHeader(options);
+  bindHeaderProfileEvents();
+  loadHeaderProfileAvatar();
 }
 
 async function loadHeaderProfileAvatar() {
@@ -75,6 +85,9 @@ async function loadHeaderProfileAvatar() {
 }
 
 function bindHeaderProfileEvents() {
+  const backBtn = document.getElementById("backBtn");
+  if (backBtn) backBtn.addEventListener("click", () => history.back());
+
   const profileBtn = document.getElementById("profileBtn");
   if (!profileBtn) return;
 
@@ -100,4 +113,9 @@ function bindHeaderProfileEvents() {
   }
 }
 
-export { loadHeaderProfileAvatar, bindHeaderProfileEvents };
+export {
+  renderHeader,
+  mountHeader,
+  loadHeaderProfileAvatar,
+  bindHeaderProfileEvents,
+};

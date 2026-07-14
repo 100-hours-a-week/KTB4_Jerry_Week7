@@ -5,6 +5,11 @@ function getComments(postId, cursor) {
   return apiFetch(`/posts/${postId}/comments${query}`);
 }
 
+function getReplies(postId, commentId, cursor) {
+  const query = cursor != null ? `?cursor=${cursor}` : "";
+  return apiFetch(`/posts/${postId}/comments/${commentId}/replies${query}`);
+}
+
 function createComment(postId, content, parentId) {
   const payload = { content };
   if (parentId != null) {
@@ -30,4 +35,4 @@ function deleteComment(postId, commentId) {
   });
 }
 
-export { getComments, createComment, updateComment, deleteComment };
+export { getComments, getReplies, createComment, updateComment, deleteComment };
