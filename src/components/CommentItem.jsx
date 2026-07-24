@@ -3,6 +3,9 @@ import { getReplies, createComment } from "../api/comment";
 import { formatNow } from "../utils/format";
 import { resolveImageUrl } from "../utils/image";
 import { useAuth } from "../contexts/AuthContext";
+import { useToast } from "../contexts/ToastContext";
+import { ERROR } from "../constants/messages";
+import useCursorPagination from "../hooks/useCursorPagination";
 import ReplyItem from "./ReplyItem";
 import ReplyComposer from "./ReplyComposer";
 
@@ -14,12 +17,27 @@ export default function CommentItem({
   onCommentCountChange,
 }) {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const isMine = user && comment.writer?.id === user.id;
 
-  const [replies, setReplies] = useState(comment.replies?.items ?? []);
-  const [replyCursor, setReplyCursor] = useState(
-    comment.replies?.next_cursor ?? null,
-  );
+  const {
+    items: replies,
+    setItems: setReplies,
+    hasMore: hasMoreReplies,
+    loadMore: loadMoreReplies,
+  } = useCursorPagination({
+    fetchPage: async (cursor) => {
+      const { ok, body } = await getReplies(postId, comment.id, cursor);
+      if (!ok) {
+        showToast(ERROR.comment.cannot_load_comments, "error");
+        return { items: [], next_cursor: null };
+      }
+      return body.data.comments;
+    },
+    initialItems: comment.replies?.items ?? [],
+    initialCursor: comment.replies?.next_cursor ?? null,
+  });
+
   const [showComposer, setShowComposer] = useState(false);
 
   if (comment.is_deleted) {
@@ -33,10 +51,10 @@ export default function CommentItem({
             <ReplyItem key={r.id} reply={r} />
           ))}
         </ul>
-        {replyCursor != null && (
+        {hasMoreReplies && (
           <button
             type="button"
-            onClick={handleLoadMoreReplies}
+            onClick={loadMoreReplies}
             className="mt-1 cursor-pointer pl-8 text-caption font-medium text-coral-strong"
           >
             답글 더 보기
@@ -48,25 +66,14 @@ export default function CommentItem({
 
   const avatar = resolveImageUrl(comment.writer.profile_image_url);
 
-  async function handleLoadMoreReplies() {
-    const res = await getReplies(postId, comment.id, replyCursor).catch(() => ({
-      ok: false,
-    }));
-    if (!res.ok) return;
-
-    const { items, next_cursor } = res.body.data.comments;
-    const seen = new Set(replies.map((r) => r.id));
-    const newItems = items.filter((r) => !seen.has(r.id));
-
-    setReplies((prev) => [...prev, ...newItems]);
-    setReplyCursor(next_cursor ?? null);
-  }
-
   async function handleReplySubmit(content) {
     const res = await createComment(postId, content, comment.id).catch(() => ({
       ok: false,
     }));
-    if (!res.ok) return;
+    if (!res.ok) {
+      showToast(ERROR.comment.fail_register, "error");
+      return;
+    }
 
     const reply = {
       id: res.body.data.id,
@@ -149,10 +156,10 @@ export default function CommentItem({
         ))}
       </ul>
 
-      {replyCursor != null && (
+      {hasMoreReplies && (
         <button
           type="button"
-          onClick={handleLoadMoreReplies}
+          onClick={loadMoreReplies}
           className="mt-1 cursor-pointer pl-8 text-caption font-medium text-coral-strong"
         >
           답글 더 보기

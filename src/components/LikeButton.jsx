@@ -1,11 +1,14 @@
 import { useState, useRef } from "react";
 import { likePost, unlikePost } from "../api/post";
 import { formatCount } from "../utils/format";
+import { useToast } from "../contexts/ToastContext";
+import { ERROR } from "../constants/messages";
 
 export default function LikeButton({ postId, initialLiked, initialCount }) {
   const [liked, setLiked] = useState(initialLiked);
   const [count, setCount] = useState(initialCount);
   const pendingRef = useRef(false);
+  const { showToast } = useToast();
 
   async function handleClick() {
     if (pendingRef.current) return;
@@ -23,6 +26,7 @@ export default function LikeButton({ postId, initialLiked, initialCount }) {
     if (!res.ok) {
       setLiked(!nextLiked);
       setCount((c) => c + (nextLiked ? -1 : 1));
+      showToast(ERROR.api.default, "error");
     }
 
     pendingRef.current = false;

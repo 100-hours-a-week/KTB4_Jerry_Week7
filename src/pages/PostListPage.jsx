@@ -1,33 +1,24 @@
-import { useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { getPosts } from "../api/post";
+import { useToast } from "../contexts/ToastContext";
+import { ERROR } from "../constants/messages";
 import PostCard from "../components/PostCard";
+import useCursorPagination from "../hooks/useCursorPagination";
 import useInfiniteScroll from "../hooks/useInfiniteScroll";
 
 export default function PostListPage() {
-  const [posts, setPosts] = useState([]);
-  const [cursor, setCursor] = useState(undefined);
-  const [isLoading, setIsLoading] = useState(false);
+  const { showToast } = useToast();
 
-  const hasMore = cursor !== null;
-
-  const loadMore = useCallback(async () => {
-    if (isLoading) return;
-    setIsLoading(true);
-
-    try {
+  const { items: posts, hasMore, isLoading, loadMore } = useCursorPagination({
+    fetchPage: async (cursor) => {
       const { ok, body } = await getPosts(cursor);
-
-      if (ok) {
-        const { items, next_cursor } = body.data.posts;
-        setPosts((prev) => [...prev, ...items]);
-        setCursor(next_cursor);
+      if (!ok) {
+        showToast(ERROR.post.cannot_load_posts, "error");
+        return { items: [], next_cursor: null };
       }
-    } catch {
-    } finally {
-      setIsLoading(false);
-    }
-  }, [cursor, isLoading]);
+      return body.data.posts;
+    },
+  });
 
   const sentinelRef = useInfiniteScroll({
     onLoadMore: loadMore,

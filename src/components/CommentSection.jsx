@@ -2,7 +2,10 @@ import { useState } from "react";
 import { getComments, createComment, updateComment, deleteComment } from "../api/comment";
 import { formatNow } from "../utils/format";
 import { useAuth } from "../contexts/AuthContext";
+import { useToast } from "../contexts/ToastContext";
 import { useConfirm } from "../contexts/ConfirmContext";
+import { ERROR } from "../constants/messages";
+import useCursorPagination from "../hooks/useCursorPagination";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 
@@ -12,12 +15,27 @@ export default function CommentSection({
   onCommentCountChange,
 }) {
   const { user } = useAuth();
+  const { showToast } = useToast();
   const { confirm } = useConfirm();
 
-  const [comments, setComments] = useState(initialComments?.items ?? []);
-  const [commentCursor, setCommentCursor] = useState(
-    initialComments?.next_cursor ?? null,
-  );
+  const {
+    items: comments,
+    setItems: setComments,
+    hasMore,
+    loadMore,
+  } = useCursorPagination({
+    fetchPage: async (cursor) => {
+      const { ok, body } = await getComments(postId, cursor);
+      if (!ok) {
+        showToast(ERROR.comment.cannot_load_comments, "error");
+        return { items: [], next_cursor: null };
+      }
+      return body.data.comments;
+    },
+    initialItems: initialComments?.items ?? [],
+    initialCursor: initialComments?.next_cursor ?? null,
+  });
+
   const [editingComment, setEditingComment] = useState(null);
 
   async function handleSubmit(content) {
@@ -25,7 +43,10 @@ export default function CommentSection({
       const res = await updateComment(postId, editingComment.id, content).catch(
         () => ({ ok: false }),
       );
-      if (!res.ok) return;
+      if (!res.ok) {
+        showToast(ERROR.comment.fail_edit, "error");
+        return;
+      }
 
       setComments((prev) =>
         prev.map((c) =>
@@ -37,7 +58,10 @@ export default function CommentSection({
       const res = await createComment(postId, content).catch(() => ({
         ok: false,
       }));
-      if (!res.ok) return;
+      if (!res.ok) {
+        showToast(ERROR.comment.fail_register, "error");
+        return;
+      }
 
       const newComment = {
         id: res.body.data.id,
@@ -65,7 +89,10 @@ export default function CommentSection({
     const res = await deleteComment(postId, commentId).catch(() => ({
       ok: false,
     }));
-    if (!res.ok) return;
+    if (!res.ok) {
+      showToast(ERROR.comment.fail_delete, "error");
+      return;
+    }
 
     const target = comments.find((c) => c.id === commentId);
     const hasReplies = target?.replies?.items?.length > 0;
@@ -80,22 +107,6 @@ export default function CommentSection({
       setComments((prev) => prev.filter((c) => c.id !== commentId));
     }
     onCommentCountChange(-1);
-  }
-
-  async function handleLoadMore() {
-    if (commentCursor == null) return;
-
-    const res = await getComments(postId, commentCursor).catch(() => ({
-      ok: false,
-    }));
-    if (!res.ok) return;
-
-    const { items, next_cursor } = res.body.data.comments;
-    const seen = new Set(comments.map((c) => c.id));
-    const newItems = items.filter((c) => !seen.has(c.id));
-
-    setComments((prev) => [...prev, ...newItems]);
-    setCommentCursor(next_cursor ?? null);
   }
 
   return (
@@ -125,11 +136,11 @@ export default function CommentSection({
         ))}
       </ul>
 
-      {commentCursor != null && (
+      {hasMore && (
         <div className="mt-2 flex justify-center">
           <button
             type="button"
-            onClick={handleLoadMore}
+            onClick={loadMore}
             className="mx-auto cursor-pointer rounded-xl border border-line px-4 py-2 text-label text-ink-muted transition hover:bg-sunken"
           >
             댓글 더보기

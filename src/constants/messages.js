@@ -36,6 +36,7 @@ export const ERROR = {
 
   comment: {
     fail_register: "댓글 등록에 실패했어요.",
+    fail_edit: "댓글 수정에 실패했어요.",
     fail_delete: "댓글 삭제에 실패했어요.",
     cannot_load_comments: "댓글을 더 불러오지 못했어요",
   },

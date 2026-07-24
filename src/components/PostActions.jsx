@@ -1,10 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { deletePost } from "../api/post";
 import { useConfirm } from "../contexts/ConfirmContext";
+import { useToast } from "../contexts/ToastContext";
+import { ERROR } from "../constants/messages";
 
 export default function PostActions({ postId }) {
   const navigate = useNavigate();
   const { confirm } = useConfirm();
+  const { showToast } = useToast();
 
   async function handleDelete() {
     const ok = await confirm({
@@ -16,6 +19,8 @@ export default function PostActions({ postId }) {
     const res = await deletePost(postId).catch(() => ({ ok: false }));
     if (res.ok) {
       navigate("/", { replace: true });
+    } else {
+      showToast(ERROR.post.cannot_delete, "error");
     }
   }
 
