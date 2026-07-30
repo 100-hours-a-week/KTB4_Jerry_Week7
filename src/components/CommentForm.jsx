@@ -1,6 +1,10 @@
 import { useState, useEffect, useRef } from "react";
 
-export default function CommentForm({ editingComment, onSubmit, onCancelEdit }) {
+export default function CommentForm({
+  editingComment,
+  onSubmit,
+  onCancelEdit,
+}) {
   const [content, setContent] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const inputRef = useRef(null);
@@ -22,8 +26,8 @@ export default function CommentForm({ editingComment, onSubmit, onCancelEdit }) 
     if (!trimmed || isSubmitting) return;
 
     setIsSubmitting(true);
-    await onSubmit(trimmed);
-    setContent("");
+    const ok = await onSubmit(trimmed);
+    if (ok) setContent("");
     setIsSubmitting(false);
   }
 

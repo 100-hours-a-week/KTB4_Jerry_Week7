@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { getComments, createComment, updateComment, deleteComment } from "../api/comment";
+import {
+  getComments,
+  createComment,
+  updateComment,
+  deleteComment,
+} from "../api/comment";
 import { formatNow } from "../utils/format";
 import { useAuth } from "../contexts/AuthContext";
 import { useToast } from "../contexts/ToastContext";
@@ -46,22 +51,21 @@ export default function CommentSection({
       );
       if (!res.ok) {
         showToast(ERROR.comment.fail_edit, "error");
-        return;
+        return false;
       }
 
       setComments((prev) =>
-        prev.map((c) =>
-          c.id === editingComment.id ? { ...c, content } : c,
-        ),
+        prev.map((c) => (c.id === editingComment.id ? { ...c, content } : c)),
       );
       setEditingComment(null);
+      return true;
     } else {
       const res = await createComment(postId, content).catch(() => ({
         ok: false,
       }));
       if (!res.ok) {
         showToast(ERROR.comment.fail_register, "error");
-        return;
+        return false;
       }
 
       const newComment = {
@@ -77,6 +81,7 @@ export default function CommentSection({
       };
       setComments((prev) => [...prev, newComment]);
       onCommentCountChange(1);
+      return true;
     }
   }
 
