@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useCallback, useRef } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useRef,
+  useMemo,
+} from "react";
 import { createPortal } from "react-dom";
 
 const ConfirmContext = createContext(null);
@@ -20,8 +27,10 @@ export default function ConfirmProvider({ children }) {
     setState(null);
   }
 
+  const value = useMemo(() => ({ confirm }), [confirm]);
+
   return (
-    <ConfirmContext.Provider value={{ confirm }}>
+    <ConfirmContext.Provider value={value}>
       {children}
       {state &&
         createPortal(

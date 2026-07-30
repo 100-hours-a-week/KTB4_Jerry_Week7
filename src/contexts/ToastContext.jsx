@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useRef, useCallback } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { createPortal } from "react-dom";
 
 const ToastContext = createContext(null);
@@ -18,8 +25,10 @@ export default function ToastProvider({ children }) {
     timerRef.current = setTimeout(() => setToast(null), 2000);
   }, []);
 
+  const value = useMemo(() => ({ showToast }), [showToast]);
+
   return (
-    <ToastContext.Provider value={{ showToast }}>
+    <ToastContext.Provider value={value}>
       {children}
       {toast &&
         createPortal(

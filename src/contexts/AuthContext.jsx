@@ -1,4 +1,11 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+} from "react";
 import { login as apiLogin, logout as apiLogout } from "../api/auth";
 import { getMyInfo } from "../api/user";
 import { setToken, clearToken, setOnAuthFailure } from "../api/client";
@@ -38,7 +45,7 @@ export default function AuthProvider({ children }) {
     return () => setOnAuthFailure(null);
   }, []);
 
-  async function login(email, password) {
+  const login = useCallback(async (email, password) => {
     const res = await apiLogin(email, password);
     if (!res.ok) return res;
 
@@ -50,35 +57,27 @@ export default function AuthProvider({ children }) {
     }
 
     return res;
-  }
+  }, []);
 
-  async function logout() {
+  const logout = useCallback(async () => {
     await apiLogout();
     clearToken();
     setUser(null);
-  }
+  }, []);
 
-  async function updateUser() {
+  const updateUser = useCallback(async () => {
     const res = await getMyInfo();
     if (res.ok) {
       setUser(res.body.data);
     }
-  }
+  }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        isAuthenticated,
-        isAuthLoading,
-        login,
-        logout,
-        updateUser,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({ user, isAuthenticated, isAuthLoading, login, logout, updateUser }),
+    [user, isAuthenticated, isAuthLoading, login, logout, updateUser],
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
