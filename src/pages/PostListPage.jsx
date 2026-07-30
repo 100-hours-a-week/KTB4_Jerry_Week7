@@ -40,21 +40,7 @@ export default function PostListPage() {
         <span className="font-bold text-coral-strong">톡톡</span>
       </p>
 
-      <div className="flex h-11 items-center gap-2 rounded-field border border-line bg-surface px-4">
-        <span
-          className="h-4.5 w-4.5 shrink-0 bg-ink-subtle"
-          style={{
-            mask: 'url("assets/icons/icon_search.svg") no-repeat center / contain',
-          }}
-        />
-        <input
-          type="search"
-          placeholder="검색어를 입력하세요"
-          className="w-full bg-transparent text-body text-ink placeholder:text-placeholder focus:outline-none"
-        />
-      </div>
-
-      <div className="mt-6 flex items-center justify-between">
+      <div className="flex items-center justify-between">
         <h2 className="text-heading text-ink">전체 글</h2>
         <Link
           to="/posts/new"
