@@ -9,12 +9,18 @@ import useInfiniteScroll from "../hooks/useInfiniteScroll";
 export default function PostListPage() {
   const { showToast } = useToast();
 
-  const { items: posts, hasMore, isLoading, loadMore } = useCursorPagination({
+  const {
+    items: posts,
+    hasMore,
+    isLoading,
+    error,
+    loadMore,
+  } = useCursorPagination({
     fetchPage: async (cursor) => {
       const { ok, body } = await getPosts(cursor);
       if (!ok) {
         showToast(ERROR.post.cannot_load_posts, "error");
-        return { items: [], next_cursor: null };
+        throw new Error(ERROR.post.cannot_load_posts);
       }
       return body.data.posts;
     },
@@ -24,6 +30,7 @@ export default function PostListPage() {
     onLoadMore: loadMore,
     hasMore,
     isLoading,
+    error,
   });
 
   return (
@@ -62,6 +69,17 @@ export default function PostListPage() {
           <PostCard key={post.id} post={post} />
         ))}
       </ul>
+      {error && hasMore && (
+        <div className="mt-4 flex justify-center">
+          <button
+            type="button"
+            onClick={loadMore}
+            className="cursor-pointer rounded-xl border border-line px-4 py-2 text-label text-ink-muted transition hover:bg-sunken"
+          >
+            재시도
+          </button>
+        </div>
+      )}
       <div ref={sentinelRef} className="h-10" />
     </main>
   );

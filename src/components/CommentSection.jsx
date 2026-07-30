@@ -22,13 +22,14 @@ export default function CommentSection({
     items: comments,
     setItems: setComments,
     hasMore,
+    error,
     loadMore,
   } = useCursorPagination({
     fetchPage: async (cursor) => {
       const { ok, body } = await getComments(postId, cursor);
       if (!ok) {
         showToast(ERROR.comment.cannot_load_comments, "error");
-        return { items: [], next_cursor: null };
+        throw new Error(ERROR.comment.cannot_load_comments);
       }
       return body.data.comments;
     },
@@ -99,9 +100,7 @@ export default function CommentSection({
 
     if (hasReplies) {
       setComments((prev) =>
-        prev.map((c) =>
-          c.id === commentId ? { ...c, is_deleted: true } : c,
-        ),
+        prev.map((c) => (c.id === commentId ? { ...c, is_deleted: true } : c)),
       );
     } else {
       setComments((prev) => prev.filter((c) => c.id !== commentId));
@@ -143,7 +142,7 @@ export default function CommentSection({
             onClick={loadMore}
             className="mx-auto cursor-pointer rounded-xl border border-line px-4 py-2 text-label text-ink-muted transition hover:bg-sunken"
           >
-            댓글 더보기
+            {error ? "재시도" : "댓글 더보기"}
           </button>
         </div>
       )}

@@ -1,6 +1,11 @@
 import { useEffect, useRef } from "react";
 
-export default function useInfiniteScroll({ onLoadMore, hasMore, isLoading }) {
+export default function useInfiniteScroll({
+  onLoadMore,
+  hasMore,
+  isLoading,
+  error,
+}) {
   const sentinelRef = useRef(null);
   const callbackRef = useRef(onLoadMore);
 
@@ -9,7 +14,7 @@ export default function useInfiniteScroll({ onLoadMore, hasMore, isLoading }) {
   }, [onLoadMore]);
 
   useEffect(() => {
-    if (!hasMore || isLoading) return;
+    if (!hasMore || isLoading || error) return;
 
     const el = sentinelRef.current;
     if (!el) return;
@@ -23,7 +28,7 @@ export default function useInfiniteScroll({ onLoadMore, hasMore, isLoading }) {
     observer.observe(el);
 
     return () => observer.disconnect();
-  }, [hasMore, isLoading]);
+  }, [hasMore, isLoading, error]);
 
   return sentinelRef;
 }

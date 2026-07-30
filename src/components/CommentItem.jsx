@@ -24,13 +24,14 @@ export default function CommentItem({
     items: replies,
     setItems: setReplies,
     hasMore: hasMoreReplies,
+    error: repliesError,
     loadMore: loadMoreReplies,
   } = useCursorPagination({
     fetchPage: async (cursor) => {
       const { ok, body } = await getReplies(postId, comment.id, cursor);
       if (!ok) {
         showToast(ERROR.comment.cannot_load_comments, "error");
-        return { items: [], next_cursor: null };
+        throw new Error(ERROR.comment.cannot_load_comments);
       }
       return body.data.comments;
     },
@@ -57,7 +58,7 @@ export default function CommentItem({
             onClick={loadMoreReplies}
             className="mt-1 cursor-pointer pl-8 text-caption font-medium text-coral-strong"
           >
-            답글 더 보기
+            {repliesError ? "재시도" : "답글 더 보기"}
           </button>
         )}
       </li>
@@ -162,7 +163,7 @@ export default function CommentItem({
           onClick={loadMoreReplies}
           className="mt-1 cursor-pointer pl-8 text-caption font-medium text-coral-strong"
         >
-          답글 더 보기
+          {repliesError ? "재시도" : "답글 더 보기"}
         </button>
       )}
     </li>

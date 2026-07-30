@@ -9,6 +9,7 @@ export default function useCursorPagination({
   const [items, setItems] = useState(initialItems);
   const [cursor, setCursor] = useState(initialCursor);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(false);
   const loadingRef = useRef(false);
   const fetchPageRef = useRef(fetchPage);
   const getKeyRef = useRef(getKey);
@@ -20,16 +21,22 @@ export default function useCursorPagination({
     if (loadingRef.current || cursor === null) return;
     loadingRef.current = true;
     setIsLoading(true);
+    setError(false);
 
     try {
-      const { items: newItems, next_cursor } = await fetchPageRef.current(cursor);
+      const { items: newItems, next_cursor } =
+        await fetchPageRef.current(cursor);
 
       setItems((prev) => {
         const seen = new Set(prev.map(getKeyRef.current));
-        const unique = newItems.filter((item) => !seen.has(getKeyRef.current(item)));
+        const unique = newItems.filter(
+          (item) => !seen.has(getKeyRef.current(item)),
+        );
         return [...prev, ...unique];
       });
       setCursor(next_cursor ?? null);
+    } catch {
+      setError(true);
     } finally {
       loadingRef.current = false;
       setIsLoading(false);
@@ -38,5 +45,5 @@ export default function useCursorPagination({
 
   const hasMore = cursor !== null;
 
-  return { items, setItems, hasMore, isLoading, loadMore };
+  return { items, setItems, hasMore, isLoading, error, loadMore };
 }
