@@ -10,7 +10,11 @@ export default function ReplyComposer({ onSubmit, onCancel }) {
     if (!trimmed || isSubmitting) return;
 
     setIsSubmitting(true);
-    await onSubmit(trimmed);
+    try {
+      await onSubmit(trimmed);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
