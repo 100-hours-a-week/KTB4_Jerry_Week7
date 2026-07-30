@@ -1,6 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useAuth } from "../contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 import {
   signup,
   checkEmailAvailability,
@@ -21,9 +20,6 @@ const SIGNUP_ERROR = {
 
 export default function SignupPage() {
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
-
-  if (isAuthenticated) return <Navigate to="/" replace />;
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
