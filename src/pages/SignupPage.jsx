@@ -157,17 +157,12 @@ export default function SignupPage() {
         className="mt-8 flex w-full max-w-120 flex-col rounded-card border border-line bg-surface p-7 shadow-md"
       >
         <div className="flex flex-col items-center gap-2">
-          <div className="flex flex-col justify-center">
-            <span className="text-label text-ink-muted">프로필 이미지</span>
-            {profileError && (
-              <p className="text-xs text-danger">{profileError}</p>
-            )}
-          </div>
+          <span className="text-label text-ink-muted">프로필 이미지</span>
           <label
             htmlFor="profileImage"
             className="relative flex h-32 w-32 cursor-pointer items-center justify-center overflow-hidden rounded-full bg-avatar"
           >
-            {profilePreview ? (
+            {profilePreview && !profileError ? (
               <img
                 src={profilePreview}
                 alt="프로필 미리보기"
@@ -184,6 +179,9 @@ export default function SignupPage() {
               className="sr-only"
             />
           </label>
+          {profileError && (
+            <p className="text-xs text-danger">{profileError}</p>
+          )}
         </div>
 
         <div className="mt-4 flex flex-col gap-1.5">
