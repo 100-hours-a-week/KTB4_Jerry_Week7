@@ -15,6 +15,12 @@ export function clearToken() {
   accessToken = null;
 }
 
+let onAuthFailure = null;
+
+export function setOnAuthFailure(handler) {
+  onAuthFailure = handler;
+}
+
 let refreshPromise = null;
 
 async function requestNewToken() {
@@ -70,6 +76,14 @@ export async function apiFetch(path, options = {}, retried = false) {
   }
 
   const body = await res.json().catch(() => null);
+  const result = { ok: res.ok, status: res.status, body };
 
-  return { ok: res.ok, status: res.status, body };
+  if (
+    result.status === HTTP_STATUS.UNAUTHORIZED &&
+    path !== "/sessions/current/token"
+  ) {
+    onAuthFailure?.();
+  }
+
+  return result;
 }

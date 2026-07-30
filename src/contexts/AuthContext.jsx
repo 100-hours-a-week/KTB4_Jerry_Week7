@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import { login as apiLogin, logout as apiLogout } from "../api/auth";
 import { getMyInfo } from "../api/user";
-import { setToken, clearToken } from "../api/client";
+import { setToken, clearToken, setOnAuthFailure } from "../api/client";
 
 const AuthContext = createContext(null);
 
@@ -28,6 +28,14 @@ export default function AuthProvider({ children }) {
     return () => {
       alive = false;
     };
+  }, []);
+
+  useEffect(() => {
+    setOnAuthFailure(() => {
+      clearToken();
+      setUser(null);
+    });
+    return () => setOnAuthFailure(null);
   }, []);
 
   async function login(email, password) {
