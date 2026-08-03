@@ -18,7 +18,6 @@ RUN pnpm build
 
 FROM nginxinc/nginx-unprivileged:${NGINX_VERSION} AS runner
 
-COPY nginx.conf /etc/nginx/nginx.conf
 COPY --chown=nginx:nginx --from=base /app/dist /usr/share/nginx/html
 
 USER nginx
