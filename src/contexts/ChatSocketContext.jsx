@@ -41,7 +41,7 @@ export default function ChatSocketProvider({ children }) {
       heartbeatOutgoing: 10000,
       debug: import.meta.env.DEV
         ? (msg) => console.log("[STOMP]", msg)
-        : undefined,
+        : () => {},
 
       beforeConnect: () => {
         const token = getToken();
