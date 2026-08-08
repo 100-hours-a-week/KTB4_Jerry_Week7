@@ -9,6 +9,7 @@ import PostBody from "../components/PostBody";
 import LikeButton from "../components/LikeButton";
 import PostActions from "../components/PostActions";
 import CommentSection from "../components/CommentSection";
+import AuthorTrigger from "../components/AuthorTrigger";
 
 export default function PostDetailPage() {
   const { id } = useParams();
@@ -71,14 +72,19 @@ export default function PostDetailPage() {
 
         <div className="mt-3 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img
-              src={avatar}
-              alt=""
-              className="h-7 w-7 rounded-full bg-avatar object-cover"
-            />
-            <span className="text-label font-medium text-ink-muted">
-              {post.writer.nickname}
-            </span>
+            <AuthorTrigger
+              writer={post.writer}
+              className="flex items-center gap-3"
+            >
+              <img
+                src={avatar}
+                alt=""
+                className="h-7 w-7 rounded-full bg-avatar object-cover"
+              />
+              <span className="text-label font-medium text-ink-muted">
+                {post.writer.nickname}
+              </span>
+            </AuthorTrigger>
             <time
               dateTime={post.created_at}
               className="text-caption text-placeholder"

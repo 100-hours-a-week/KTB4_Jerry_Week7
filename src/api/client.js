@@ -21,6 +21,10 @@ export function setOnAuthFailure(handler) {
   onAuthFailure = handler;
 }
 
+export function notifyAuthFailure() {
+  onAuthFailure?.();
+}
+
 let refreshPromise = null;
 
 async function requestNewToken() {
@@ -42,7 +46,7 @@ async function requestNewToken() {
   }
 }
 
-function refreshAccessToken() {
+export function refreshAccessToken() {
   if (!refreshPromise) {
     refreshPromise = requestNewToken().finally(() => {
       refreshPromise = null;

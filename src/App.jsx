@@ -10,6 +10,8 @@ import MakePostPage from "./pages/MakePostPage";
 import EditPostPage from "./pages/EditPostPage";
 import EditProfilePage from "./pages/EditProfilePage";
 import EditPasswordPage from "./pages/EditPasswordPage";
+import ChatListPage from "./pages/ChatListPage";
+import ChatRoomPage from "./pages/ChatRoomPage";
 
 export default function App() {
   return (
@@ -26,6 +28,8 @@ export default function App() {
           <Route path="/posts/:id/edit" element={<EditPostPage />} />
           <Route path="/profile/edit" element={<EditProfilePage />} />
           <Route path="/profile/password" element={<EditPasswordPage />} />
+          <Route path="/chat" element={<ChatListPage />} />
+          <Route path="/chat/:roomId" element={<ChatRoomPage />} />
         </Route>
       </Route>
     </Routes>

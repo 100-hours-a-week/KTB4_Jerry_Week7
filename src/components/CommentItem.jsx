@@ -8,6 +8,7 @@ import { ERROR } from "../constants/messages";
 import useCursorPagination from "../hooks/useCursorPagination";
 import ReplyItem from "./ReplyItem";
 import ReplyComposer from "./ReplyComposer";
+import AuthorTrigger from "./AuthorTrigger";
 
 export default function CommentItem({
   comment,
@@ -97,14 +98,19 @@ export default function CommentItem({
     <li className="border-b border-line py-4">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <img
-            src={avatar}
-            alt=""
-            className="h-6 w-6 rounded-full bg-avatar object-cover"
-          />
-          <span className="text-label font-bold text-ink">
-            {comment.writer.nickname}
-          </span>
+          <AuthorTrigger
+            writer={comment.writer}
+            className="flex items-center gap-2"
+          >
+            <img
+              src={avatar}
+              alt=""
+              className="h-6 w-6 rounded-full bg-avatar object-cover"
+            />
+            <span className="text-label font-bold text-ink">
+              {comment.writer.nickname}
+            </span>
+          </AuthorTrigger>
           <time
             dateTime={comment.created_at}
             className="text-caption text-placeholder"

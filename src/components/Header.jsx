@@ -1,12 +1,16 @@
 import { useState, useRef, useCallback } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { resolveImageUrl } from "../utils/image";
 import useOutsideClick from "../hooks/useOutsideClick";
+import ChatIcon from "./icons/ChatIcon";
 
 export default function Header() {
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const { user, logout } = useAuth();
+
+  const isHome = pathname === "/";
 
   const [menuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
@@ -26,13 +30,22 @@ export default function Header() {
   return (
     <header className="border-b border-line bg-surface">
       <div className="mx-auto grid h-17 max-w-170 grid-cols-[1fr_auto_1fr] items-center">
-        <button
-          type="button"
-          onClick={() => navigate(-1)}
-          className="flex h-10 w-10 cursor-pointer items-center justify-center justify-self-start rounded-lg text-3xl leading-none text-ink hover:bg-sunken"
-        >
-          ‹
-        </button>
+        {isHome ? (
+          <Link
+            to="/chat"
+            className="flex h-10 w-10 items-center justify-center justify-self-start rounded-lg text-ink hover:bg-sunken"
+          >
+            <ChatIcon className="h-6 w-6" />
+          </Link>
+        ) : (
+          <button
+            type="button"
+            onClick={() => navigate(-1)}
+            className="flex h-10 w-10 cursor-pointer items-center justify-center justify-self-start rounded-lg text-3xl leading-none text-ink hover:bg-sunken"
+          >
+            ‹
+          </button>
+        )}
 
         <h1 className="text-center text-logo text-ink">
           <Link to="/">톡톡</Link>

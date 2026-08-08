@@ -41,6 +41,13 @@ export const ERROR = {
     cannot_load_comments: "댓글을 더 불러오지 못했어요",
   },
 
+  chat: {
+    cannot_load_rooms: "채팅 목록을 불러오지 못했어요.",
+    cannot_load_messages: "메시지를 불러오지 못했어요.",
+    cannot_start_chat: "채팅을 시작하지 못했어요.",
+    cannot_delete: "메시지 삭제에 실패했어요.",
+  },
+
   api: {
     invalid_credentials: "* 아이디 또는 비밀번호를 확인해주세요.",
     bad_request: "* 입력값을 확인해주세요.",
